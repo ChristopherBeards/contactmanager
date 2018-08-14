@@ -3,6 +3,9 @@ import axios from 'axios';
 
 const Context = React.createContext();
 
+/* 
+The reducer takes in action types and returns the updated state.
+*/
 const reducer = (state, action) => {
   switch (action.type) {
     case 'DELETE_CONTACT':
@@ -32,7 +35,12 @@ const reducer = (state, action) => {
   }
 };
 
+/*
+The Provider wraps around every other component
+and is where the global state is stored.
+*/
 export class Provider extends Component {
+  // Dispatch here becomes a part of state and can be called anywhere.
   state = {
     contacts: [],
     dispatch: action => this.setState(state => reducer(state, action)),
@@ -48,6 +56,7 @@ export class Provider extends Component {
 
   render() {
     return (
+      // Anything we want available throughout the app we place into a property called value
       <Context.Provider value={this.state}>
         {this.props.children}
       </Context.Provider>
@@ -55,4 +64,5 @@ export class Provider extends Component {
   }
 }
 
+// We use the Consumer in any component we want to access the state or actions
 export const Consumer = Context.Consumer;
